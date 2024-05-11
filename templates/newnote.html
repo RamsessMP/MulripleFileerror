@@ -1,0 +1,37 @@
+<html>
+
+<head> </head>
+
+<body>
+    <div>
+
+        {% for field, error in form.errors.items() %} <!-- Для высвечивания ошибок валидации-->
+        {{ ', '.join(error) }}
+        {% endfor %}
+
+        <form method="post" enctype="multipart/form-data"> <!-- визуализация формы запроса post.   
+                            без enctype="multipart/form-data" image сохраняется как str (но тогда <img>, не видит путь файла, тк он представлен str), 
+                            а если его добавить, то тип image будет <FileStorage> (можно использовать как путь)-->
+            <div> <!-- <div> - новая строка (модуль) для поля формы --> 
+                {{ form.title.label }} {{ form.title() }}
+            </div>
+
+            <div>
+                {{ form.text.label }} {{ form.text() }}
+            </div>
+
+            <div>
+                <!-- {{ form.image.label }} {{ form.image() }} -->
+                {{ form.image.label }} {{ form.image(multiple="multiple") }} <!-- Добавляем поддержку загрузки нескольких файлов -->
+            </div>
+
+            <div>
+                {{ form.submit() }} <!-- визуализация кнопки отправки формы-->
+            </div>
+            <a href="{{ url_for('index') }}"><h3>Отмена</h3></a>
+        </form>
+
+    </div>
+</body>
+
+</html>

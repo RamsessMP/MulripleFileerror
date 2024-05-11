@@ -1,0 +1,46 @@
+<html>
+    <head> </head>
+
+    <body>
+        <h1>Заметки</h1>
+
+        <!-- Вывод всех заметок в таблице -->
+        <table border="1" width = "600"> <!-- border - толщина граней таблицы, width - ширина столбца -->
+            <!-- TH - название колонки; TR - строка;  ТD - cоздание ячейки-->
+            <tr>  <th>Title</th> <th>Text</th> <th>Image</th>  </tr> <!-- Шапка таблицы -->
+
+            {% for note in lstnotes %} 
+            <tr> 
+                <td><h2>{{ note.Title }}</h2></td>   <td>{{ note.Text}}</td>  
+                <!--<td>
+                    {% if note.Image %}  Некоторые заметки не имеют изображений, и чтобы стайт не вылетал, ссылка в else не будет создаваться 
+                    <img src="{{ url_for('static', filename='images/' + note.Image) }}" alt="Note Image">
+                    {% endif %}
+                </td> -->
+                
+               <!-- <td>
+                    {% if note.Image %}  чтобы цикл не запускался для заметок, у которых нет изображения
+                    {% for image in note.Image %}
+                    <img src="{{ url_for('static', filename='images/' + image) }}" alt="Note Image">
+                    {% endfor %}
+                    {% endif %}
+                </td> -->
+                <td>
+                    {% if note.Image %}
+                        {% set imagsroad = note.Image | json.loads %} <!-- создаем переменную, которая будет хранить в себе json-файл, превращенный в список -->
+                        {% for image in imagsroad %}
+                            <img src="{{ url_for('static', filename='images/' + image) }}" alt="Note Image">
+                        {% endfor %}
+                    {% endif %}
+                </td>
+                
+                
+            </tr>    
+            {% endfor %} 
+
+        </table>
+
+        <br/> <a href="{{ url_for('newnote') }}"><h3>Создать заметку</h3></a>
+
+    </body>
+</html>
